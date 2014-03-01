@@ -1,0 +1,100 @@
+[
+	{
+		"model": "main.rango",
+		"pk": 1,
+		"fields": {
+			"titulo": "Trol bebé",
+			"descripcion": "Aprendiendo a caminar",
+			"icono": "uploads/rangos/trol-bebe.png",
+			"valor": 0
+		}
+	}, {
+		"model": "main.rango",
+		"pk": 2,
+		"fields": {
+			"titulo": "Trol",
+			"descripcion": "El bromista de la clase",
+			"icono": "uploads/rangos/trol.png",
+			"valor": 1000
+		}
+	}, {
+		"model": "main.rango",
+		"pk": 3,
+		"fields": {
+			"titulo": "Sir Trol",
+			"descripcion": "Maestro en generar sonrisas. Elegante e impecable",
+			"icono": "uploads/rangos/sir-trol.png",
+			"valor": 10000
+		}
+	}, {
+		"model": "main.medalla",
+		"pk": 1,
+		"fields": {
+			"titulo": "Colaborador",
+			"descripcion": "Miembro destacado. Gracias por tu apoyo",
+			"icono": "uploads/medallas/colaborador.png"
+		}
+	}, {
+		"model": "main.medalla",
+		"pk": 2,
+		"fields": {
+			"titulo": "Un trol ha nacido",
+			"descripcion": "Al menos 1 publicación aprobada",
+			"icono": "uploads/medallas/un-trol-ha-nacido.png"
+		}
+	}, {
+		"model": "main.medalla",
+		"pk": 3,
+		"fields": {
+			"titulo": "Sangre de bufón",
+			"descripcion": "Al menos 100 publicaciones aprobadas",
+			"icono": "uploads/medallas/sangre-de-bufon.png"
+		}
+	}, {
+		"model": "main.medalla",
+		"pk": 4,
+		"fields": {
+			"titulo": "Sonrisa de guasón",
+			"descripcion": "Al menos 1000 publicaciones en los favoritos",
+			"icono": "uploads/medallas/sonrisa-de-guason.png"
+		}
+	}, {
+		"model": "main.medalla",
+		"pk": 5,
+		"fields": {
+			"titulo": "El tiempo vuela cuando te diviertes",
+			"descripcion": "Un año registrado en la comunidad",
+			"icono": "uploads/medallas/el-tiempo-vuela.png"
+		}
+	}, {
+		"model": "main.etiqueta",
+		"pk": 1,
+		"fields": {
+			"titulo": "NSFW"
+		}
+	}, {
+		"model": "main.etiqueta",
+		"pk": 2,
+		"fields": {
+			"titulo": "Foto"
+		}
+	}, {
+		"model": "main.etiqueta",
+		"pk": 3,
+		"fields": {
+			"titulo": "GIF"
+		}
+	}, {
+		"model": "main.etiqueta",
+		"pk": 4,
+		"fields": {
+			"titulo": "Meme"
+		}
+	}, {
+		"model": "main.etiqueta",
+		"pk": 5,
+		"fields": {
+			"titulo": "Comic"
+		}
+	}
+]
