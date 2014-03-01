@@ -1,0 +1,9 @@
+/sonrisatrol/media/*
+/sonrisatrol/settings.py
+/venv/*
+/conf/*
+/logs/*
+.settings/*
+.project
+.pydevproject
+*.pyc
