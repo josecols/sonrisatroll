@@ -1,299 +1,328 @@
 <!DOCTYPE html>
 <html lang="es">
 
-	<head>
-		<meta charset="utf-8">
-		<title>{% if perfil.user.first_name and perfil.user.last_name %}
-			{{perfil.user.first_name}} {{perfil.user.last_name}}
-			{% else %}{{ perfil }}{%endif%} - Sonrisatroll</title>
-		<meta name="description" content="{{perfil.acerca}}">
-		<meta name="keywords" content="meme, memes, trol, sonrisa, sonrisatrol, español, comic">
-		<meta name="robots" content="index, follow">
-		<meta name="googlebot" content="NOODP">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sonrisatrol.css">
-		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}js/fancybox/jquery.fancybox.css" media="screen" />
-		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<head>
+    <meta charset="utf-8">
+    <title>{% if perfil.user.first_name and perfil.user.last_name %} {{perfil.user.first_name}} {{perfil.user.last_name}} {% else %}{{ perfil }}{%endif%} - Sonrisatroll</title>
+    <meta name="description" content="{{perfil.acerca}}">
+    <meta name="keywords" content="meme, memes, trol, sonrisa, sonrisatrol, español, comic">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="NOODP">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sonrisatrol.css">
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}js/fancybox/jquery.fancybox.css" media="screen" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
-		<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-	</head>
+</head>
 
-	<body>
-		{% load filters %}
-		<header id="header">
-			<div class="contenedor">
-				<section id="cuerpo">
-					<form method="get" action="{% url busqueda "1" %}">
-						<input name="q" type="text" placeholder="Búsqueda">
-						<input type="submit">
-					</form>
-					<a href="{% url index %}"> <img src="{{STATIC_URL}}img/logo.png" alt="Sonrisatrol" id="logo"> </a>
-					<select name="categorias" id="categorias">
-						<option value="">Categorias</option>
-						<option value="{% url index_categoria "popular" %}">Popular</option>
-						<option value="{% url index_categoria "nuevo" %}">Nuevo</option>
-					</select>
-				</section>
-				<aside>
-					<nav>
-						<ul>
-							<li>
-								<a href="{% if request.user.perfil %}{% url publicar "imagen" %}{% else %}{% url registro %}{% endif %}"><span> <strong>Subir</strong> </span> <img src="{{STATIC_URL}}img/subir.png" alt="Subir" title="Subir" width="32" height="32"> </a>
-							</li>
-							<li id="cuenta">
-								{% if request.user.perfil %}
-								<a href="{% url usuario request.user "aportes" "1" %}"><span>Cuenta</span><img src="{{MEDIA_URL}}{{request.user.perfil.avatar}}" alt="{{request.user}}" title="Perfil de {{request.user}}" width="32" height="32"></a>
-								{% else %}
-								<a href="{% url autenticacion %}"><span>Iniciar sesión</span><img src="{{STATIC_URL}}img/login.png" alt="Iniciar sesión" title="Iniciar sesión" width="32" height="32"></a>
-								{% endif %}
-							</li>
-						</ul>
-					</nav>
-				</aside>
-				<div class="fix"></div>
-				{% if request.user.perfil %}
-				<nav id="cuentaMenu">
-					<ul>
-						<li>
-							<a href="{% url editar-perfil %}">Editar perfil</a>
-						</li>
-						<li>
-							<a href="{% url salir%}">Cerrar sesión</a>
-						</li>
-					</ul>
-				</nav>
-				{% endif %}
-			</div>
-		</header>
-		<div id="pagina">
+<body>
+    {% load filters %}
+    <header id="header">
+        <div class="contenedor">
+            <section id="cuerpo">
+                <form method="get" action="{% url busqueda '1' %}">
+                    <input name="q" type="text" placeholder="Búsqueda">
+                    <input type="submit">
+                </form>
+                <a href="{% url index %}">
+                    <img src="{{STATIC_URL}}img/logo.png" alt="Sonrisatrol" id="logo">
+                </a>
+                <select name="categorias" id="categorias">
+                    <option value="">Categorias</option>
+                    <option value="{% url index_categoria 'popular' %}" {% if categoria == 'popular' %}selected{%endif%}>Popular</option>
+                    <option value="{% url index_categoria 'nuevo' %}" {% if categoria == 'nuevo' %}selected{%endif%}>Nuevo</option>
+                </select>
+            </section>
+            <aside>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="{% if request.user.perfil %}{% url publicar 'imagen' %}{% else %}{% url registro %}{% endif %}">
+                                <span>
+                                    <strong>Subir</strong>
+                                </span>
+                                <img src="{{STATIC_URL}}img/subir.png" alt="Subir" title="Subir" width="32" height="32">
+                            </a>
+                        </li>
+                        <li id="cuenta">
+                            {% if request.user.perfil %}
+                            <a href="{% url usuario request.user 'aportes' '1' %}">
+                                <span>Cuenta</span>
+                                <img src="{{MEDIA_URL}}{{request.user.perfil.avatar}}" alt="{{request.user}}" title="Perfil de {{request.user}}" width="32" height="32">
+                            </a>
+                            {% else %}
+                            <a href="{% url autenticacion %}">
+                                <span>Iniciar sesión</span>
+                                <img src="{{STATIC_URL}}img/login.png" alt="Iniciar sesión" title="Iniciar sesión" width="32" height="32">
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <div class="fix"></div>
+            {% if request.user.perfil %}
+            <nav id="cuentaMenu">
+                <ul>
+                    <li>
+                        <a href="{% url editar-perfil %}">Editar perfil</a>
+                    </li>
+                    <li>
+                        <a href="{% url salir%}">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+    <div id="pagina">
 
-			<section id="contenido">
-				<article id="perfil">
-					<img src="{% if perfil.avatar %}{{MEDIA_URL}}{{ perfil.avatar }}{% else %}{{MEDIA_URL}}uploads/avatares/avatar.png{% endif %}" alt="Avatar de {{perfil}}">
-					<div id="informacion">
-						<h1><a href="javascript:void(0)"> {% if perfil.user.first_name and perfil.user.last_name %}
-						{{perfil.user.first_name}} {{perfil.user.last_name}}
-						{% else %} {{perfil}}
-						{% endif %}</a></h1>
-						<p>
-							{{perfil.acerca}}
-						</p>
-					</div>
-					<nav id="social">
-						<ul>
-							{% if perfil.twitter %}
-							<li>
-								<h2><img src="{{STATIC_URL}}img/twitter.png" alt="twitter"><a href="http://twitter.com/{{perfil.twitter}}" target="_blank">@{{perfil.twitter}}</a></h2>
-							</li>
-							{% endif %}
-							{% if perfil.facebook %}
-							<li>
-								<h2><img src="{{STATIC_URL}}img/facebook.png" alt="twitter"><a href="{{perfil.facebook}}" target="_blank">facebook</a></h2>
-							</li>
-							{% endif %}
-						</ul>
-					</nav>
-				</article>
-				<nav id="filtro">
-					<ul>
-						<li>
-							<a href="{% url usuario perfil "aportes" "1" %}" {% if not favoritos %}class="seleccionado"{%endif%}>Aportes</a>
-						</li>
-						<li>
-							<a href="{% url usuario perfil "favoritos" "1" %}" {% if favoritos %}class="seleccionado"{%endif%}>Favoritos</a>
-						</li>
-					</ul>
-				</nav>
-				{% if publicaciones %} {% for publicacion in publicaciones %}
-				<article id="navegacion{{forloop.counter}}" class="post">
-					<hgroup>
-						<h1><span class="contador {{ publicacion.favoritos|contador }}"> <span id="cuenta{{ publicacion.pk }}">{{ publicacion.favoritos|cuenta }}</span> </span><a href="{% url publicacion publicacion.slug publicacion.pk %}"> {{ publicacion.titulo }}</a></h1>
-						<h1 class="fix"></h1>
-						<h2><a href="{% url usuario publicacion.autor "aportes" "1" %}">{{publicacion.autor.username}}</a></h2>
-					</hgroup>
-					<div class="contenedor">
-						{% if publicacion.imagen %}
-						{% if "GIF" in publicacion.etiquetas.all|safe %}
-						<img data-estado='estatico' class="gif" src="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" alt="{{ publicacion.titulo }}">
-						<div class="reproducir"></div>
-						{% else %}
-						<a href="{% url publicacion publicacion.slug publicacion.pk %}"> <img src="{{MEDIA_URL}}{{ publicacion.imagen }}" alt="{{ publicacion.titulo }}"></a>{% endif %}{% else %}
-						{% if publicacion.video %}
-						<div class="contenedorVideo">
-							{{ publicacion.video|youtube_embed_url|safe}}
-						</div>
-						{% endif %}{% endif %}
-					</div>
-					<nav>
-						<ul>
-							<li>
-								<a id="compartir{{ publicacion.pk }}" href="javascript:void(0)" class="compartir">Compartir</a>
-							</li>
-							<li>
-								<a id="favorito{{ publicacion.pk }}" href="{% if request.user.perfil %}javascript:void(0){% else %}{% url registro %}{% endif %}" class="favorito{% if request.user.perfil and publicacion in request.user.perfil.favoritos.all %} fseleccionado {% endif %}">Favorito</a>
-							</li>
-						</ul>
-						<div class="fix"></div>
-						<section id="sharebox{{ publicacion.pk }}" class="sharebox">
-							<table>
-								<tr>
-									<td><a href="//twitter.com/share" class="twitter-share-button" data-via="Sonrisatrol" data-url="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-text="{{ publicacion.titulo }}" data-lang="es">Twittear</a></td>
-									<td><div class="g-plusone" data-size="medium" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}"></div></td>
-								</tr>
-								<tr>
-									<td><div class="fb-like" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="segoe ui" data-colorscheme="light"></div></td>
-									{% if publicacion.imagen %}<td><a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url={{ request.META.HTTP_HOST|weburl|urlencode:"" }}publicacion%2F{{ publicacion.slug|urlencode:"" }}&media={{ request.META.HTTP_HOST|weburl|slice:"-1"|urlencode:"" }}{{MEDIA_URL}}{{publicacion.imagen}}&description={{ publicacion.titulo|urlencode:"" }}" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></td>{% endif %}
-								</tr>
-							</table>
-						</section>
-					</nav>
-					<div class="fix"></div>
-				</article>
-				<hr>
-				{% endfor %} {% else %}
-				<p class="mensaje">
-					No hay publicaciones registradas
-				</p>
-				{% endif %}
-				{% if publicaciones.has_previous or publicaciones.has_next %}
-				<nav id="paginacion">
-					<ul>
-						{% if publicaciones.has_previous %}
-						<li>
-							<a href="{%if favoritos%}{% url usuario perfil "favoritos" publicaciones.previous_page_number %}{%else%}{% url usuario perfil "aportes" publicaciones.previous_page_number %}{%endif%}" class="boton">Anterior</a>
-						</li>
-						{% endif %} {% if publicaciones.has_next %}
-						<li>
-							<a href="{%if favoritos%}{% url usuario perfil "favoritos" publicaciones.next_page_number %}{%else%}{% url usuario perfil "aportes" publicaciones.next_page_number %}{%endif%}" class="boton">Siguiente</a>
-						</li>
-						{% endif %}
-					</ul>
-				</nav>
-				{% endif %}
-			</section>
-			<aside id="sidebar">
-				<section id="rango">
-					<h1>Rango</h1>
-					<img src="{{MEDIA_URL}}{{perfil.rango.icono}}" alt="{{perfil.rango.titulo}}">
-					<p class="center">
-						{{perfil.rango.titulo}}
-					</p>
-					<p class="center">
-						"{{perfil.rango.descripcion}}"
-					</p>
-				</section>
-				<section id="medallas">
-					<h1>Medallas</h1>
-					{% if perfil.medallas.all %}
-					{% for medalla in perfil.medallas.all %}
-					<a class="detalle" href="{{MEDIA_URL}}{{medalla.icono}}" title='{{medalla.titulo}}: "{{medalla.descripcion}}"'> <img src="{{MEDIA_URL}}{{medalla.icono}}" alt="{{medalla.titulo}}"> </a>
-					{% endfor %}
-					<div class="fix"></div>
-					{% else %}
-					<p class="center">
-						No hay medallas registradas
-					</p>
-					{% endif %}
-				</section>
-				<section class="contenedor">
-						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	                    <!-- Sonrisatrol sidebar -->
-	                    <ins class="adsbygoogle"
-	                         style="display:inline-block;width:250px;height:250px"
-	                         data-ad-client="ca-pub-3998478512214443"
-	                         data-ad-slot="1574976885"></ins>
-	                    <script>
-	                    (adsbygoogle = window.adsbygoogle || []).push({});
-	                    </script>
-				</section>
-			</aside>
-			<div class="fix"></div>
-		</div>
-		<footer id="footer">
-			<nav>
-				<ul>
-					<li>
-						<a href="{% url seccion "acerca" %}">Acerca</a>
-					</li>
-					<li>
-						<a href="{% url seccion "preguntas-frecuentes" %}">Preguntas frecuentes</a>
-					</li>
-					<li>
-						<a href="{% url seccion "terminos-de-uso" %}">Términos de uso</a>
-					</li>
-					<li>
-						<a href="{% url seccion "anuncia" %}">Anuncia</a>
-					</li>
-					<li>
-						<a href="{% url seccion "contacto" %}">Contacto</a>
-					</li>
-				</ul>
-			</nav>
-		</footer>
-		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<script async defer src="{{STATIC_URL}}js/sonrisatrol.js"></script>
-		<script src="{{STATIC_URL}}js/jquery.mousewheel-3.0.6.js"></script>
-		<script src="{{STATIC_URL}}js/fancybox/jquery.fancybox.js"></script>
-		{% if publicaciones %}
-		<script async defer src="{{STATIC_URL}}js/widgets.js"></script>
-		<script async defer src="{{STATIC_URL}}js/reproductorGIF.js"></script>
-		<script async defer src="{{STATIC_URL}}js/navegacion.js"></script>
-		{% endif %}
-		{% if request.user.perfil and publicaciones %}
-		<script>
-			$(document).ready(function() {
-				$('.favorito').click(function() {
-					favorito(this);
-				});
+        <section id="contenido">
+            <article id="perfil">
+                <img src="{% if perfil.avatar %}{{MEDIA_URL}}{{ perfil.avatar }}{% else %}{{MEDIA_URL}}uploads/avatares/avatar.png{% endif %}" alt="Avatar de {{perfil}}">
+                <div id="informacion">
+                    <h1>
+                        <a href="javascript:void(0)">{% if perfil.user.first_name and perfil.user.last_name %} {{perfil.user.first_name}} {{perfil.user.last_name}} {% else %} {{perfil}} {% endif %}</a>
+                    </h1>
+                    <p>
+                        {{perfil.acerca}}
+                    </p>
+                </div>
+                <nav id="social">
+                    <ul>
+                        {% if perfil.twitter %}
+                        <li>
+                            <h2>
+                                <img src="{{STATIC_URL}}img/twitter.png" alt="twitter">
+                                <a href="http://twitter.com/{{perfil.twitter}}" target="_blank">@{{perfil.twitter}}</a>
+                            </h2>
+                        </li>
+                        {% endif %} {% if perfil.facebook %}
+                        <li>
+                            <h2>
+                                <img src="{{STATIC_URL}}img/facebook.png" alt="twitter">
+                                <a href="{{perfil.facebook}}" target="_blank">facebook</a>
+                            </h2>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </article>
+            <nav id="filtro">
+                <ul>
+                    <li>
+                        <a href="{% url usuario perfil 'aportes' '1' %}" {% if not favoritos %}class="seleccionado" {%endif%}>Aportes</a>
+                    </li>
+                    <li>
+                        <a href="{% url usuario perfil 'favoritos' '1' %}" {% if favoritos %}class="seleccionado" {%endif%}>Favoritos</a>
+                    </li>
+                </ul>
+            </nav>
+            {% if publicaciones %} {% for publicacion in publicaciones %}
+            <article id="navegacion{{forloop.counter}}" class="post">
+                <hgroup>
+                    <h1>
+                        <span class="contador {{ publicacion.favoritos|contador }}">
+                            <span id="cuenta{{ publicacion.pk }}">{{ publicacion.favoritos|cuenta }}</span>
+                        </span>
+                        <a href="{% url publicacion publicacion.slug publicacion.pk %}">{{ publicacion.titulo }}</a>
+                    </h1>
+                    <h1 class="fix"></h1>
+                    <h2>
+                        <a href="{% url usuario publicacion.autor 'aportes' '1' %}">{{publicacion.autor.username}}</a>
+                    </h2>
+                </hgroup>
+                <div class="contenedor">
+                    {% if publicacion.imagen %} {% if "GIF" in publicacion.etiquetas.all|safe %}
+                    <img data-estado='estatico' class="gif" src="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" alt="{{ publicacion.titulo }}">
+                    <div class="reproducir"></div>
+                    {% else %}
+                    <a href="{% url publicacion publicacion.slug publicacion.pk %}">
+                        <img src="{{MEDIA_URL}}{{ publicacion.imagen }}" alt="{{ publicacion.titulo }}">
+                    </a>{% endif %}{% else %} {% if publicacion.video %}
+                    <div class="contenedorVideo">
+                        {{ publicacion.video|youtube_embed_url|safe}}
+                    </div>
+                    {% endif %}{% endif %}
+                </div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a id="compartir{{ publicacion.pk }}" href="javascript:void(0)" class="compartir">Compartir</a>
+                        </li>
+                        <li>
+                            <a id="favorito{{ publicacion.pk }}" href="{% if request.user.perfil %}javascript:void(0){% else %}{% url registro %}{% endif %}" class="favorito{% if request.user.perfil and publicacion in request.user.perfil.favoritos.all %} fseleccionado {% endif %}">Favorito</a>
+                        </li>
+                    </ul>
+                    <div class="fix"></div>
+                    <section id="sharebox{{ publicacion.pk }}" class="sharebox">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="//twitter.com/share" class="twitter-share-button" data-via="Sonrisatrol" data-url="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-text="{{ publicacion.titulo }}" data-lang="es">Twittear</a>
+                                </td>
+                                <td>
+                                    <div class="g-plusone" data-size="medium" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="fb-like" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="segoe ui" data-colorscheme="light"></div>
+                                </td>
+                                {% if publicacion.imagen %}
+                                <td>
+                                    <a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url={{ request.META.HTTP_HOST|weburl|urlencode:" " }}publicacion%2F{{ publicacion.slug|urlencode:" " }}&media={{ request.META.HTTP_HOST|weburl|slice:"-1 "|urlencode:" " }}{{MEDIA_URL}}{{publicacion.imagen}}&description={{ publicacion.titulo|urlencode:" " }}" data-pin-do="buttonPin">
+                                        <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
+                                    </a>
+                                </td>{% endif %}
+                            </tr>
+                        </table>
+                    </section>
+                </nav>
+                <div class="fix"></div>
+            </article>
+            <hr>{% endfor %} {% else %}
+            <p class="mensaje">
+                No hay publicaciones registradas
+            </p>
+            {% endif %} {% if publicaciones.has_previous or publicaciones.has_next %}
+            <nav id="paginacion">
+                <ul>
+                    {% if publicaciones.has_previous %}
+                    <li>
+                        <a href="{%if favoritos%}{% url usuario perfil 'favoritos' publicaciones.previous_page_number %}{%else%}{% url usuario perfil 'aportes' publicaciones.previous_page_number %}{%endif%}" class="boton">Anterior</a>
+                    </li>
+                    {% endif %} {% if publicaciones.has_next %}
+                    <li>
+                        <a href="{%if favoritos%}{% url usuario perfil 'favoritos' publicaciones.next_page_number %}{%else%}{% url usuario perfil 'aportes' publicaciones.next_page_number %}{%endif%}" class="boton">Siguiente</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </section>
+        <aside id="sidebar">
+            <section id="rango">
+                <h1>Rango</h1>
+                <img src="{{MEDIA_URL}}{{perfil.rango.icono}}" alt="{{perfil.rango.titulo}}">
+                <p class="center">
+                    {{perfil.rango.titulo}}
+                </p>
+                <p class="center">
+                    "{{perfil.rango.descripcion}}"
+                </p>
+            </section>
+            <section id="medallas">
+                <h1>Medallas</h1>
+                {% if perfil.medallas.all %} {% for medalla in perfil.medallas.all %}
+                <a class="detalle" href="{{MEDIA_URL}}{{medalla.icono}}" title='{{medalla.titulo}}: "{{medalla.descripcion}}"'>
+                    <img src="{{MEDIA_URL}}{{medalla.icono}}" alt="{{medalla.titulo}}">
+                </a>
+                {% endfor %}
+                <div class="fix"></div>
+                {% else %}
+                <p class="center">
+                    No hay medallas registradas
+                </p>
+                {% endif %}
+            </section>
+            <section class="contenedor">
+                <div class="publicidad">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-3998478512214443" data-ad-slot="1884168886"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </section>
+        </aside>
+        <div class="fix"></div>
+    </div>
+    <footer id="footer">
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url seccion 'acerca' %}">Acerca</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'preguntas-frecuentes' %}">Preguntas frecuentes</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'terminos-de-uso' %}">Términos de uso</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'anuncia' %}">Anuncia</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'contacto' %}">Contacto</a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script async defer src="{{STATIC_URL}}js/sonrisatrol.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.mousewheel-3.0.6.js"></script>
+    <script src="{{STATIC_URL}}js/fancybox/jquery.fancybox.js"></script>
+    {% if publicaciones %}
+    <script async defer src="{{STATIC_URL}}js/widgets.js"></script>
+    <script async defer src="{{STATIC_URL}}js/reproductorGIF.js"></script>
+    <script async defer src="{{STATIC_URL}}js/navegacion.js"></script>
+    {% endif %} {% if request.user.perfil and publicaciones %}
+    <script>
+        $(document).ready(function() {
+        				$('.favorito').click(function() {
+        					favorito(this);
+        				});
 
-				$(document).keyup(function(event) {
-					if (String.fromCharCode(event.keyCode) == "l" || String.fromCharCode(event.keyCode) == "L") {
-						favorito("#navegacion" + publicacionActual() + " .favorito");
-					}
-				});
+        				$(document).keyup(function(event) {
+        					if (String.fromCharCode(event.keyCode) == "l" || String.fromCharCode(event.keyCode) == "L") {
+        						favorito("#navegacion" + publicacionActual() + " .favorito");
+        					}
+        				});
 
-				function favorito(boton) {
-					var id = $(boton).attr('id').match(/[0-9]+/);
-					var request = $.ajax({
-						async : true,
-						type : "POST",
-						url : "{% url favorito %}",
-						data : 'publicacion_id=' + id + '&csrfmiddlewaretoken=' + '{{csrf_token}}',
-						dataType : "text"
-					});
-					request.done(function(msg) {
-						$('#cuenta' + id + '').text(msg.replace(/\"/g, ''));
-					});
-					if ($(boton).hasClass('fseleccionado')) {
-						$(boton).removeClass('fseleccionado');
-					} else {
-						$(boton).addClass('fseleccionado');
-					}
-					return false;
-				}
+        				function favorito(boton) {
+        					var id = $(boton).attr('id').match(/[0-9]+/);
+        					var request = $.ajax({
+        						async : true,
+        						type : "POST",
+        						url : "{% url favorito %}",
+        						data : 'publicacion_id=' + id + '&csrfmiddlewaretoken=' + '{{csrf_token}}',
+        						dataType : "text"
+        					});
+        					request.done(function(msg) {
+        						$('#cuenta' + id + '').text(msg.replace(/\"/g, ''));
+        					});
+        					if ($(boton).hasClass('fseleccionado')) {
+        						$(boton).removeClass('fseleccionado');
+        					} else {
+        						$(boton).addClass('fseleccionado');
+        					}
+        					return false;
+        				}
 
-			});
-		</script>
-		{% endif %}
-		<script>
-			$(document).ready(function() {
-				$(".detalle").fancybox({
-					padding : 5,
-					maxWidth : 128,
-					maxHeight : 128,
-					openEffect : 'elastic',
-					openSpeed : 150,
-					closeEffect : 'elastic',
-					closeSpeed : 150,
-					closeClick : true,
-					helpers : {
-						overlay : null
-					}
-				});
-			});
-		</script>
-	</body>
+        			});
+    </script>
+    {% endif %}
+    <script>
+        $(document).ready(function() {
+        				$(".detalle").fancybox({
+        					padding : 5,
+        					maxWidth : 128,
+        					maxHeight : 128,
+        					openEffect : 'elastic',
+        					openSpeed : 150,
+        					closeEffect : 'elastic',
+        					closeSpeed : 150,
+        					closeClick : true,
+        					helpers : {
+        						overlay : null
+        					}
+        				});
+        			});
+    </script>
+</body>
 
 </html>

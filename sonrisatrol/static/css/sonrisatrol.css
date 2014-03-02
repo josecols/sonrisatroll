@@ -207,7 +207,7 @@
 	width:80%
 }
 #contenido .post .contenedor {
-	position:relative	
+	position:relative
 }
 #contenido .post .contenedorVideo, #contenido #post .contenedorVideo {
     width: 100%;
@@ -221,7 +221,7 @@
     display:none;
     height:65px;
     position:absolute;
-    width:65px                 
+    width:65px
 }
 #contenido .post hgroup {
     margin-bottom:5px;
@@ -243,7 +243,7 @@
     box-shadow:inset 0 5px 8px -2px #111;
     display:none;
     height:70px;
-    overflow:visible;    
+    overflow:visible;
     padding:5px
 }
 #contenido .post nav li .compartir, #contenido #post nav li .compartir {
@@ -310,7 +310,7 @@
     overflow:hidden;
     padding:5px
 }
-#formulario .errorlist {	
+#formulario .errorlist {
 	color:#C22F1F;
 	font-size:0.95em;
 	margin:0;
@@ -339,7 +339,7 @@
     color:#fff;
     cursor:pointer;
     display:block;
-    font-size:1.03em;    
+    font-size:1.03em;
     margin:15px auto 5px auto;
     min-width:110px;
     padding:5px 4px;
@@ -348,7 +348,7 @@
     background-color:#F2662E
 }
 #formulario input[type="submit"]:active {
-	background-color:#FF6B30 
+	background-color:#FF6B30
 }
 #formulario select {
 	float:left;
@@ -369,7 +369,7 @@
     background-color:#364f70
 }
 #formulario nav li {
-    display:inline-block       
+    display:inline-block
 }
 #formulario nav ul {
     text-align:center
@@ -400,16 +400,16 @@
     max-width:1140px;
     position:relative
 }
-#header .contenedor #cuentaMenu {	
-	display:none;	
-	background-color:#3e6e85;	
+#header .contenedor #cuentaMenu {
+	display:none;
+	background-color:#3e6e85;
     position:absolute;
     right:0;
-    top:55px;    
+    top:55px;
     z-index:999;
 }
 #header .contenedor #cuentaMenu li {
-	display:block;	
+	display:block;
 	padding:6px;
 	text-align:center
 }
@@ -472,7 +472,7 @@
 #header .contenedor aside nav ul li {
     height:32px;
     margin:0 3px;
-    overflow:hidden;    
+    overflow:hidden;
     width:32px
 }
 #header .contenedor aside nav ul li a {
@@ -487,7 +487,7 @@
     width:32px
 }
 #header .contenedor aside nav ul li span {
-    display:none    
+    display:none
 }
 #header .contenedor aside nav ul li a:hover {
     color:#7ccede
@@ -524,7 +524,7 @@
 #sidebar .contenedor {
     height:250px;
     margin:10px auto;
-    width:250px
+    width:300px
 }
 #sidebar .contenedor .publicidad {
 	position:static;
@@ -532,9 +532,9 @@
 .helptext {
 	float: right;
 	clear:both;
-	font-size:12px; 
+	font-size:12px;
 	margin-top: 6px;
-	text-align: right 
+	text-align: right
 }
 .fix {
     clear:both
@@ -676,7 +676,7 @@ nav ul li {
     #contenido .publicidad {
         display:none
     }
-    #formulario {		
+    #formulario {
 		border-radius: 8px;
 		box-shadow: 0 0 5px 1px #CCC;
 		margin: 80px auto 30px;
@@ -693,7 +693,7 @@ nav ul li {
         width:100%;
         z-index:2
     }
-    #header .contenedor #cuentaMenu {		
+    #header .contenedor #cuentaMenu {
 	    right:2%
 	}
     #header .contenedor #cuerpo #categorias {
@@ -764,7 +764,7 @@ nav ul li {
         height:100%;
         position:absolute;
         right:0;
-        width:26.7%
+        width:27.7%
     }
     #sidebar .contenedor .publicidad {
 		position:fixed;
