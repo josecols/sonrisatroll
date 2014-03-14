@@ -126,7 +126,7 @@ class GhostWidget(widgets.Textarea):
                     <section class="entry-preview active">
                         <header class="floatingheader">
                             &nbsp;&nbsp; Resultado
-                            <span class="entry-word-count">0 words</span>
+                            <span class="entry-word-count">0 palabras</span>
                         </header>
                         <section class="entry-preview-content">
                             <div class="rendered-markdown"></div>
