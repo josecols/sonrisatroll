@@ -9,8 +9,7 @@
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="NOODP">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sonrisatrol.css">
-    {% block css %}{% endblock css %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sonrisatroll.css">{% block css %}{% endblock css %}
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 </head>
 
@@ -81,8 +80,7 @@
     <div id="pagina">
         {% block pagina %}
         <section id="contenido">
-            {% block contenido %}
-            {% if request.session.mensaje %}
+            {% block contenido %} {% if request.session.mensaje %}
             <section id="mensaje" class="{% if request.session.exito_mensaje %}exito{% else %}error{% endif %}">
                 <p>
                     {{request.session.mensaje}}
@@ -144,7 +142,7 @@
                                 </td>
                                 {% if publicacion.imagen %}
                                 <td>
-                                    <a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url={{ request.META.HTTP_HOST|weburl|urlencode:" " }}publicacion%2F{{ publicacion.slug|urlencode:" " }}&media={{ request.META.HTTP_HOST|weburl|slice:"-1 "|urlencode:" " }}{{MEDIA_URL}}{{publicacion.imagen}}&description={{ publicacion.titulo|urlencode:" " }}" data-pin-do="buttonPin">
+                                    <a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url={{ request.META.HTTP_HOST|weburl|urlencode:'' }}publicacion%2F{{ publicacion.slug|urlencode:'' }}&media={{ request.META.HTTP_HOST|weburl|slice:'-1'|urlencode:'' }}{{MEDIA_URL}}{{publicacion.imagen}}&description={{ publicacion.titulo|urlencode:'' }}" data-pin-do="buttonPin">
                                         <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
                                     </a>
                                 </td>{% endif %}
@@ -175,11 +173,12 @@
                 </ul>
                 {% endblock navegacion %}
             </nav>
-            {% endif %}
-            {% endblock contenido %}
+            {% endif %} {% endblock contenido %}
         </section>
         <aside id="sidebar">
-            {% block sidebar %}
+            {% if not request.user.perfil %}
+            <a class="boton" href="{% url registro %}">¡Únete a Sonrisatroll!</a>
+            {% endif %} {% block sidebar %}
             <section class="contenedor">
                 <div class="publicidad">
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -220,7 +219,8 @@
         {% endblock footer %}
     </footer>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script async defer src="{{STATIC_URL}}js/sonrisatrol.js"></script>
+    <script async src="{{STATIC_URL}}js/sonrisatroll.js"></script>
+    <script async src="{{STATIC_URL}}js/sonrisatroll.placeholder.js"></script>
     {% block js %}{% endblock js %}
 </body>
 

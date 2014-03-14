@@ -1,8 +1,8 @@
 {% extends "base.html" %}{% load filters %}
     {% block js %} {% if publicaciones %}
-    <script async defer src="{{STATIC_URL}}js/widgets.js"></script>
-    <script async defer src="{{STATIC_URL}}js/reproductorGIF.js"></script>
-    <script async defer src="{{STATIC_URL}}js/navegacion.js"></script>
+    <script async src="{{STATIC_URL}}js/sonrisatroll.widgets.js"></script>
+    <script async src="{{STATIC_URL}}js/sonrisatroll.gif.js"></script>
+    <script async src="{{STATIC_URL}}js/sonrisatroll.navegacion.js"></script>
     {% endif %} {% if request.user.perfil and publicaciones %}
     <script>
         $(document).ready(function () {

@@ -1,0 +1,8 @@
+/*  Sonrisatroll
+    Aplicación: Sonrisatroll
+    Aplicación URL: http://www.sonrisatroll.com
+    Autor: José Cols - josecolsg@gmail.com
+    Version: 1.0
+    Requiere jQuery 1.9.1
+*/
+function mantenerVista(objeto){var top=objeto.offset().top-parseFloat(objeto.css('marginTop').replace(/auto/,0));$(window).scroll(function(event){var y=$(this).scrollTop();if(y>=top){objeto.addClass('fixed');}else{objeto.removeClass('fixed');}});}function compartir(objeto){var id=objeto.attr('id').match(/[0-9]+/);if($('#sharebox'+id+'').is(':hidden')){objeto.addClass('cseleccionado');$('#sharebox'+id+'').css('visibility','visible');$('#sharebox'+id+'').slideDown('fast');}else{$('#sharebox'+id+'').slideUp('fast');objeto.removeClass('cseleccionado');}return false;}function menu(){var menuActivo=false;function cerrarMenu(){if(menuActivo==false)$('#cuentaMenu').css('display','none');}function abrirMenu(){$('#cuentaMenu').css('display','block');}$('#cuenta').mouseenter(function(){abrirMenu();});$('#cuenta').mouseleave(function(){setTimeout(function(){cerrarMenu();},400);});$('#cuentaMenu').mouseenter(function(){menuActivo=true;});$('#cuentaMenu').mouseleave(function(){menuActivo=false;cerrarMenu();});}$(document).ready(function(){if($('#sidebar .publicidad').length>0)mantenerVista($('#sidebar .publicidad'));menu();$('#categorias').change(function(){if($(this).val()!="")window.location.href=$(this).val();});$('.compartir').click(function(){compartir($(this));});});

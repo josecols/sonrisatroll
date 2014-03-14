@@ -1,7 +1,7 @@
-/*  Sonrisatrol
-    Aplicación: Sonrisatrol Widgets
-    Aplicación URL: http://www.sonrisatrol.com
-    Autor: José Cols - josecolsg@gmail.com
+/*  Sonrisatroll
+    Aplicación: Sonrisatroll Widgets
+    Aplicación URL: http://www.sonrisatroll.com
+    Autor: José Cols - josecolsg@gmail.com - @josecols
     Version: 1.0
     Requiere jQuery 1.9.1
 */
