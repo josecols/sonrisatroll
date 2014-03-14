@@ -1,18 +1,25 @@
 [
-	{
+    {
+        "model": "sites.site",
+        "pk": 1,
+        "fields": {
+            "domain": "sonrisatroll.com",
+            "name": "sonrisatroll.com"
+        }
+    },	{
 		"model": "main.rango",
 		"pk": 1,
 		"fields": {
-			"titulo": "Trol bebé",
+			"titulo": "Troll bebé",
 			"descripcion": "Aprendiendo a caminar",
 			"icono": "uploads/rangos/trol-bebe.png",
 			"valor": 0
-		}
+        }
 	}, {
 		"model": "main.rango",
 		"pk": 2,
 		"fields": {
-			"titulo": "Trol",
+			"titulo": "Troll",
 			"descripcion": "El bromista de la clase",
 			"icono": "uploads/rangos/trol.png",
 			"valor": 1000
@@ -21,7 +28,7 @@
 		"model": "main.rango",
 		"pk": 3,
 		"fields": {
-			"titulo": "Sir Trol",
+			"titulo": "Sir Troll",
 			"descripcion": "Maestro en generar sonrisas. Elegante e impecable",
 			"icono": "uploads/rangos/sir-trol.png",
 			"valor": 10000
@@ -38,7 +45,7 @@
 		"model": "main.medalla",
 		"pk": 2,
 		"fields": {
-			"titulo": "Un trol ha nacido",
+			"titulo": "Un troll ha nacido",
 			"descripcion": "Al menos 1 publicación aprobada",
 			"icono": "uploads/medallas/un-trol-ha-nacido.png"
 		}
