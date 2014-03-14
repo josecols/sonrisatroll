@@ -18,7 +18,7 @@ youtube_embed_url.is_safe = True
 @register.filter(name='youtube_thumbnail')
 def youtube_thumbnail(url):
     match = re.search(r'^(http|https)\:\/\/www\.youtube\.com\/watch\?v\=(\w*)(\&(.*))?$', url)
-    if match:        
+    if match:
         result = "http://img.youtube.com/vi/%s/2.jpg" % (match.group(2))
         return result
     return ''

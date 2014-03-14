@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block titulo %}Sonrisatroll{% endblock %}</title>
+    <meta name="description" content="Sonrisatroll es un repertorio de memes en español, enviados por nuestros usuarios. Cada usuario desbloquea rangos y medallas al hacer aportes.">
+    <meta name="keywords" content="meme, memes, trol, sonrisa, sonrisatrol, español, comic">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="NOODP">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/sonrisatrol.css">
+    {% block css %}{% endblock css %}
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+    {% load filters %}
+    <header id="header">
+        {% block header %}
+        <div class="contenedor">
+            <section id="cuerpo">
+                <form method="get" action="{% url busqueda '1' %}">
+                    <input name="q" type="text" placeholder="Búsqueda">
+                    <input type="submit">
+                </form>
+                <a href="{% url index %}">
+                    <img id="logo" src="{{STATIC_URL}}img/logo.png" alt="Sonrisatroll" title="Sonrisatroll">
+                </a>
+                <select name="categorias" id="categorias">
+                    <option value="">Categorias</option>
+                    <option value="{% url index_categoria 'popular' %}" {% if categoria == 'popular' %}selected{%endif%}>Popular</option>
+                    <option value="{% url index_categoria 'nuevo' %}" {% if categoria == 'nuevo' %}selected{%endif%}>Nuevo</option>
+                </select>
+            </section>
+            <aside>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="{% if request.user.perfil %}{% url publicar 'imagen' %}{% else %}{% url registro %}{% endif %}">
+                                <span>
+                                    <strong>Subir</strong>
+                                </span>
+                                <img src="{{STATIC_URL}}img/subir.png" alt="Subir" title="Subir" width="32" height="32">
+                            </a>
+                        </li>
+                        <li id="cuenta">
+                            {% if request.user.perfil %}
+                            <a href="{% url usuario request.user 'aportes' '1' %}">
+                                <span>Cuenta</span>
+                                <img src="{{MEDIA_URL}}{{request.user.perfil.avatar}}" alt="{{request.user.perfil}}" title="Perfil de {{request.user.perfil}}" width="32" height="32">
+                            </a>
+                            {% else %}
+                            <a href="{% url autenticacion %}">
+                                <span>Iniciar sesión</span>
+                                <img src="{{STATIC_URL}}img/login.png" alt="Iniciar sesión" title="Iniciar sesión" width="32" height="32">
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <div class="fix"></div>
+            {% if request.user.perfil %}
+            <nav id="cuentaMenu">
+                <ul>
+                    <li>
+                        <a href="{% url editar-perfil %}">Editar perfil</a>
+                    </li>
+                    <li>
+                        <a href="{% url salir%}">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+        {% endblock header %}
+    </header>
+
+    {% block principal %}
+    <div id="pagina">
+        {% block pagina %}
+        <section id="contenido">
+            {% block contenido %}
+            {% if request.session.mensaje %}
+            <section id="mensaje" class="{% if request.session.exito_mensaje %}exito{% else %}error{% endif %}">
+                <p>
+                    {{request.session.mensaje}}
+                </p>
+                <a id="cerrar" href="javascript:void(0)">Cerrar</a>
+                <div class="fix"></div>
+            </section>
+            {% endif %} {% if publicaciones %} {% for publicacion in publicaciones %}
+            <article id="navegacion{{forloop.counter}}" class="post">
+                {% block post %}
+                <hgroup>
+                    <h1>
+                        <span class="contador {{ publicacion.favoritos|contador }}">
+                            <span id="cuenta{{ publicacion.pk }}">{{ publicacion.favoritos|cuenta }}</span>
+                        </span>
+                        <a href="{% url publicacion publicacion.slug publicacion.pk %}">{{ publicacion.titulo }}</a>
+                    </h1>
+                    <h1 class="fix"></h1>
+                    <h2>
+                        <a href="{% url usuario publicacion.autor 'aportes' '1' %}">{{publicacion.autor.username}}</a>
+                    </h2>
+                </hgroup>
+                <div class="contenedor">
+                    {% if publicacion.imagen %} {% if "GIF" in publicacion.etiquetas.all|safe %}
+                    <img data-estado='estatico' class="gif" src="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" alt="{{ publicacion.titulo }}">
+                    <div class="reproducir"></div>
+                    {% else %}
+                    <a href="{% url publicacion publicacion.slug publicacion.pk %}">
+                        <img src="{{MEDIA_URL}}{{ publicacion.imagen }}" alt="{{ publicacion.titulo }}">
+                    </a>{% endif %}{% else %} {% if publicacion.video %}
+                    <div class="contenedorVideo">
+                        {{ publicacion.video|youtube_embed_url|safe}}
+                    </div>
+                    {% endif %}{% endif %}
+                </div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a id="compartir{{ publicacion.pk }}" href="javascript:void(0)" class="compartir">Compartir</a>
+                        </li>
+                        <li>
+                            <a id="favorito{{ publicacion.pk }}" href="{% if request.user.perfil %}javascript:void(0){%else%}{% url registro %}{%endif%}" class="favorito{% if request.user.perfil and publicacion in request.user.perfil.favoritos.all %} fseleccionado {% endif %}">Favorito</a>
+                        </li>
+                    </ul>
+                    <div class="fix"></div>
+                    <section id="sharebox{{ publicacion.pk }}" class="sharebox">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="//twitter.com/share" class="twitter-share-button" data-via="Sonrisatrol" data-url="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-text="{{ publicacion.titulo }}" data-lang="es">Twittear</a>
+                                </td>
+                                <td>
+                                    <div class="g-plusone" data-size="medium" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="fb-like" data-href="{{ request.META.HTTP_HOST|weburl }}publicacion/{{ publicacion.slug }}-{{publicacion.pk}}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="segoe ui" data-colorscheme="light"></div>
+                                </td>
+                                {% if publicacion.imagen %}
+                                <td>
+                                    <a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url={{ request.META.HTTP_HOST|weburl|urlencode:" " }}publicacion%2F{{ publicacion.slug|urlencode:" " }}&media={{ request.META.HTTP_HOST|weburl|slice:"-1 "|urlencode:" " }}{{MEDIA_URL}}{{publicacion.imagen}}&description={{ publicacion.titulo|urlencode:" " }}" data-pin-do="buttonPin">
+                                        <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
+                                    </a>
+                                </td>{% endif %}
+                            </tr>
+                        </table>
+                    </section>
+                </nav>
+                <div class="fix"></div>
+                {% endblock %}
+            </article>
+            <hr>{% endfor %} {% else %}
+            <p class="mensaje">
+                No hay publicaciones registradas
+            </p>
+            {% endif %} {% if publicaciones.has_previous or publicaciones.has_next %}
+            <nav id="paginacion">
+                {% block navegacion %}
+                <ul>
+                    {% if publicaciones.has_previous %}
+                    <li>
+                        <a href="{% url index_pagina categoria publicaciones.previous_page_number %}" class="boton">Anterior</a>
+                    </li>
+                    {% endif %} {% if publicaciones.has_next %}
+                    <li>
+                        <a href="{% url index_pagina categoria publicaciones.next_page_number %}" class="boton">Siguiente</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endblock navegacion %}
+            </nav>
+            {% endif %}
+            {% endblock contenido %}
+        </section>
+        <aside id="sidebar">
+            {% block sidebar %}
+            <section class="contenedor">
+                <div class="publicidad">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-3998478512214443" data-ad-slot="1884168886"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </section>
+            {% endblock sidebar %}
+        </aside>
+        <div class="fix"></div>
+        {% endblock pagina %}
+    </div>
+    {% endblock principal %}
+
+    <footer id="footer">
+        {% block footer %}
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url seccion 'acerca' %}">Acerca</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'preguntas-frecuentes' %}">Preguntas frecuentes</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'terminos-de-uso' %}">Términos de uso</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'anuncia' %}">Anuncia</a>
+                </li>
+                <li>
+                    <a href="{% url seccion 'contacto' %}">Contacto</a>
+                </li>
+            </ul>
+        </nav>
+        {% endblock footer %}
+    </footer>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script async defer src="{{STATIC_URL}}js/sonrisatrol.js"></script>
+    {% block js %}{% endblock js %}
+</body>
+
+</html>
