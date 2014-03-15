@@ -523,6 +523,7 @@ url(../fonts/segoeui-semibold-webfont.ttf) format("truetype");
     text-shadow:1px 1px #0c1219
 }
 #header .contenedor aside nav ul li a img {
+    border-radius:32px;
     display:block;
     height:32px;
     width:32px
