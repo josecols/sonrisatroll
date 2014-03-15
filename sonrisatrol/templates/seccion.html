@@ -1,4 +1,4 @@
 {% extends "base.html" %}{% load markup %}{% block titulo %}{{seccion}} - Sonrisatroll{% endblock titulo %} {% block contenido %}
 <h1 class="seccion">{{seccion}}</h1>
-{{ seccion.contenido|markdown:'safe' }}
+<div class="seccion-contenido">{{ seccion.contenido|markdown }}</div>
 {% endblock contenido %}

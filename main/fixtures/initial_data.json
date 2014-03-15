@@ -1,12 +1,12 @@
 [
-    {
-        "model": "sites.site",
-        "pk": 1,
-        "fields": {
-            "domain": "sonrisatroll.com",
-            "name": "sonrisatroll.com"
-        }
-    },	{
+	{
+		"model": "sites.site",
+		"pk": 1,
+		"fields": {
+			"domain": "sonrisatroll.com",
+			"name": "sonrisatroll.com"
+		}
+	}, {
 		"model": "main.rango",
 		"pk": 1,
 		"fields": {
@@ -14,7 +14,7 @@
 			"descripcion": "Aprendiendo a caminar",
 			"icono": "uploads/rangos/trol-bebe.png",
 			"valor": 0
-        }
+		}
 	}, {
 		"model": "main.rango",
 		"pk": 2,
@@ -102,6 +102,38 @@
 		"pk": 5,
 		"fields": {
 			"titulo": "Comic"
+		}
+	}, {
+		"model": "main.seccion",
+		"pk": 1,
+		"fields": {
+			"contenido": "**Sonrisatroll** es un repertorio de memes en espa\u00f1ol, enviados por nuestros usuarios. Cada usuario desbloquea rangos y medallas al hacer aportes. En Sonrisatroll sabemos que reirse es lo m\u00e1s importante, as\u00ed que hemos desarrollado un motor de ludificaci\u00f3n que permite que la experiencia de ver chistes gr\u00e1ficos sea m\u00e1s divertida.\r\n\r\n<p class=\"center\">\r\n  <img src=\"/static/img/logo-256.png\" alt=\"Sonrisatroll\"/>\r\n</p>",
+			"titulo": "Acerca",
+			"slug": "acerca"
+		}
+	}, {
+		"model": "main.seccion",
+		"pk": 2,
+		"fields": {
+			"contenido": "Gracias por utilizar nuestros productos y servicios (\u201cServicios\u201d). Los Servicios son proporcionados por Sonrisatroll. (\u201cSonrisatroll\u201d).\r\n\r\nMediante la utilizaci\u00f3n de nuestros Servicios usted est\u00e1 aceptando estas condiciones. Por favor, l\u00e9alas detenidamente.\r\n\r\n###Acceso a nuestros Servicios.\r\nDebe seguir las pol\u00edticas disponibles para usted dentro de los Servicios.\r\n\r\nNo utilice nuestros Servicios de forma indebida. Por ejemplo, no interfiera en nuestros Servicios ni intente acceder a ellos por otro m\u00e9todo diferente a la interfaz y las instrucciones que le proporcionamos. Puede utilizar nuestros Servicios solo como se permite por ley, incluidas las leyes y regulaciones correspondientes de control de exportaci\u00f3n y reexportaci\u00f3n.\r\n\r\nEl uso de nuestros Servicios no otorga derecho de propiedad intelectual alguno sobre nuestros Servicios o contenido al que acceda. No podr\u00e1 utilizar el contenido de nuestros Servicios a menos que obtenga el permiso de su propietario o que ello est\u00e9 permitido por ley. Estas condiciones no le otorgan el derecho de utilizar marca o logotipo alguno utilizado en nuestros Servicios. No elimine, oculte ni modifique ning\u00fan aviso legal mostrado en nuestros Servicios o junto a ellos.\r\n\r\nNuestros Servicios muestran cierto contenido que no pertenece a Sonrisatroll. Dicho contenido es responsabilidad exclusiva de la entidad que lo pone a disposici\u00f3n. Podremos revisar contenido para determinar si es ilegal o si infringe nuestras pol\u00edticas, y podremos eliminar o rechazar la visualizaci\u00f3n de contenido que razonablemente consideremos que infringe nuestras pol\u00edticas o la ley.\r\n\r\nSonrisatroll, se reserva el derecho a establecer l\u00edmites sobre el uso y almacenamiento a su discreci\u00f3n en cualquier momento con o sin previo aviso.\r\n\r\n###Contenido.\r\nEl Sitio y su contenido han sido creados exclusivamente para el uso de los suscriptores de Sonrisatroll y s\u00f3lo podr\u00e1n ser utilizados de acuerdo con los t\u00e9rminos que aqu\u00ed se especifican. Todos los materiales expuestos o realizados en el Sitio, incluyendo, pero no limitado a, texto, gr\u00e1ficos, logotipos, herramientas, fotograf\u00edas, im\u00e1genes, ilustraciones, software o c\u00f3digo fuente, de audio y video, animaciones y temas son propiedad de Sonrisatroll y/o de terceros y est\u00e1n protegidos por las leyes sobre el derecho de autor de Venezuela e internacionales. El suscriptor deber\u00e1 respetar todos los avisos de derechos de autor, informaci\u00f3n y restricciones contenidas en cualquier contenido accedido a trav\u00e9s de los Servicios.\r\n\r\nCuando suba o de otro modo env\u00ede contenido a nuestros Servicios, otorgar\u00e1 a Sonrisatroll una licencia internacional para utilizar, alojar, almacenar, reproducir, modificar, crear obras derivadas (como las traducciones, adaptaciones o modificaciones que hacemos para que su contenido funcione mejor con nuestros Servicios), comunicar, publicar, ejecutar p\u00fablicamente y distribuir dicho contenido. Los derechos que usted otorga en esta licencia son para el objetivo limitado de operar, promocionar y mejorar nuestros Servicios, y para desarrollar otros nuevos. Esta licencia subsistir\u00e1 a\u00fan cuando usted deje de utilizar nuestros Servicios (por ejemplo, una publicaci\u00f3n realizada).\r\n\r\n###Privacidad.\r\nNos esforzamos en proteger a Sonrisatroll y nuestros usuarios del acceso no autorizado o cualquier modificaci\u00f3n, divulgaci\u00f3n o destrucci\u00f3n no autorizada de la informaci\u00f3n que poseemos. En particular:\r\n\r\n1. Encriptamos datos sensibles.\r\n2. Revisamos nuestras pr\u00e1cticas de recopilaci\u00f3n, almacenamiento y procesamiento de informaci\u00f3n, incluidas nuestras medidas de seguridad f\u00edsica, para protegernos frente al acceso no autorizado a los sistemas.\r\n3. Restringimos el acceso a la informaci\u00f3n personal limtando usuarios cuya autenticaci\u00f3n no tienes los permisos suficientes.\r\n\r\nSonrisatroll no divulgar\u00e1, bajo ninguna circunstancia, aquella informaci\u00f3n proporcionada por el usuario que es considerada privada o sensible. Consideramos informaci\u00f3n no privada o no sensible, los siguientes campos de su perfil:\r\n\r\n* Nombre de usuario.\r\n* Avatar.\r\n* Biograf\u00eda.\r\n* Usuario en twitter.\r\n* Perfil en facebook.\r\n* Puntos.\r\n* Rango.\r\n* Medallas.\r\n* Publicaciones realizadas.\r\n* Publicaciones que le han gustado.\r\n\r\nSi desea evitar que parte o la totalidad de la informaci\u00f3n mencionada como no privada o no sensible sea divulgada en nuestros Servicios, por favor no la suministre al sistema.\r\n",
+			"titulo": "T\u00e9rminos de uso",
+			"slug": "terminos-de-uso"
+		}
+	}, {
+		"model": "main.seccion",
+		"pk": 3,
+		"fields": {
+			"contenido": "Tenemos varios espacios y precios disponibles, escr\u00edbenos a [admin@sonrisatroll.com](mailto:admin@sonrisatroll.com) para mayor informaci\u00f3n sobre estad\u00edsticas, datos demogr\u00e1ficos, afiliaciones y m\u00e1s.",
+			"titulo": "Anuncia",
+			"slug": "anuncia"
+		}
+	}, {
+		"model": "main.seccion",
+		"pk": 4,
+		"fields": {
+			"contenido": "Para obtener m\u00e1s informaci\u00f3n sobre **Sonrisatroll** no dudes seguirnos en [twitter](http://www.twitter.com/sonrisatroll). Si tienes preguntas acerca del servicio, o c\u00f3mo puedes asociarte con nosotros, escr\u00edbenos un correo a [admin@sonrisatroll.com](mailto:admin@sonrisatroll.com).\r\n",
+			"titulo": "Contacto",
+			"slug": "contacto"
 		}
 	}
 ]
