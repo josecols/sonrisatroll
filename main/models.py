@@ -220,7 +220,7 @@ def asignar_medallas(sender, instance, **kwargs):
             medalla = Medalla.objects.get(titulo="Sangre de bufón")
         elif Publicacion.objects.filter(autor=instance.autor,
                 aprobado=True).count() >= 1:
-            medalla = Medalla.objects.get(titulo='Un trol ha nacido')
+            medalla = Medalla.objects.get(titulo='Un troll ha nacido')
     except Medalla.DoesNotExist:
         medalla = None
     if medalla:
