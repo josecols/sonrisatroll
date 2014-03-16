@@ -1,4 +1,5 @@
-{% extends "base.html" %}{% load filters %}{% block titulo %}{% if perfil.user.first_name and perfil.user.last_name %} {{perfil.user.first_name}} {{perfil.user.last_name}} {% else %}{{ perfil }}{%endif%} - Sonrisatroll{% endblock titulo %} {% block contenido %}
+{% extends "base.html" %}{% load filters %}{% block titulo %}{% if perfil.user.first_name and perfil.user.last_name %} {{perfil.user.first_name}} {{perfil.user.last_name}} {% else %}{{ perfil }}{%endif%} - Sonrisatroll{% endblock titulo %}{% block css %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}js/fancybox/jquery.fancybox.css" media="screen" />{% endblock css %} {% block contenido %}
 <article id="perfil">
     <img src="{% if perfil.avatar %}{{MEDIA_URL}}{{ perfil.avatar }}{% else %}{{MEDIA_URL}}uploads/avatares/avatar.png{% endif %}" alt="Avatar de {{perfil}}">
     <div id="informacion">
