@@ -216,10 +216,10 @@ def asignar_medallas(sender, instance, **kwargs):
     medalla = None
     try:
         if Publicacion.objects.filter(autor=instance.autor,
-                aprobado=True).count() == 100:
+                aprobado=True).count() >= 100:
             medalla = Medalla.objects.get(titulo="Sangre de bufón")
         elif Publicacion.objects.filter(autor=instance.autor,
-                aprobado=True).count() == 1:
+                aprobado=True).count() >= 1:
             medalla = Medalla.objects.get(titulo='Un trol ha nacido')
     except Medalla.DoesNotExist:
         medalla = None
