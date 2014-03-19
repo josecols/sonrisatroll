@@ -245,6 +245,12 @@ url(../fonts/segoeui-semibold-webfont.ttf) format("truetype");
     position:absolute;
     width:65px
 }
+#contenido .post .preloader {
+    display:none;
+    height:64px;
+    position:absolute;
+    width:64px
+}
 #contenido .post hgroup {
     margin-bottom:5px;
     text-align:justify
