@@ -1,11 +1,20 @@
-# encoding:utf-8
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # Sonrisatrol - Django 1.4 - Python 2.7.3
 # Desarrollado por José Cols - josecolsg@gmail.com - @josecols
+
+import os
+import re
+import requests
+import unicodedata
 from django.db.models import Q
 from django.http import Http404
+from templatetags import filters
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 from django.utils import simplejson
 from django.http import HttpResponse
-from templatetags import filters
 from django.shortcuts import redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -16,10 +25,13 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from models import Publicacion, PerfilUsuario, Seccion, Rango, Medalla
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from forms import RegistroUsuarioForm, PublicarImagenForm, PublicarVideoForm, UsuarioForm, PerfilUsuarioForm
+from forms import RegistroUsuarioForm, PublicarImagenForm, \
+    PublicarVideoForm, UsuarioForm, PerfilUsuarioForm
 
 # Publicaciones por página
+
 PUBLICACIONES = 10
+
 
 def paginar(lista, pagina, items):
     paginator = Paginator(lista, items)
@@ -31,20 +43,29 @@ def paginar(lista, pagina, items):
         publicaciones = paginator.page(paginator.num_pages)
     return publicaciones
 
+
 def asignar_medalla(usuario, titulo):
     medalla = Medalla.objects.get(titulo=titulo)
     if medalla:
         usuario.medallas.add(medalla)
+
 
 def aviso(request, mensaje, exito):
     request.session['mensaje'] = mensaje
     request.session['exito_mensaje'] = exito
     return request
 
+
+def normalizar(string):
+    string = unicodedata.normalize('NFKD', unicode(string)).lower()
+    return re.sub(r'\W+', '', string)
+
+
 @csrf_protect
 def favorito(request):
     if request.method == 'POST':
-        publicacion = get_object_or_404(Publicacion, pk=request.POST.get('publicacion_id', None))
+        publicacion = get_object_or_404(Publicacion,
+                pk=request.POST.get('publicacion_id', None))
         usuario = PerfilUsuario.objects.get(user=request.user)
         autor = PerfilUsuario.objects.get(user=publicacion.autor)
 
@@ -62,88 +83,125 @@ def favorito(request):
         autor.save()
 
         # Medalla
+
         if usuario.favoritos.all().count() == 1000:
             try:
-                medalla = Medalla.objects.get(titulo="Sonrisa de guasón")
+                medalla = Medalla.objects.get(titulo="Sonrisa de guasón"
+                        )
             except Rango.DoesNotExist:
                 medalla = None
             if medalla:
                 usuario.medallas.add(medalla)
 
-        return HttpResponse(simplejson.dumps(filters.cuenta(publicacion.favoritos)), mimetype='application/javascript')
+        return HttpResponse(simplejson.dumps(filters.cuenta(publicacion.favoritos)),
+                            mimetype='application/javascript')
     raise Http404
 
-def index(request, categoria="nuevo", pagina="1", mensaje=None):
-    if categoria == "popular":
-        lista = Publicacion.objects.filter(aprobado=True).order_by('favoritos').reverse()
+
+def index(
+    request,
+    categoria='nuevo',
+    pagina='1',
+    mensaje=None,
+    ):
+
+    if categoria == 'popular':
+        lista = \
+            Publicacion.objects.filter(aprobado=True).order_by('favoritos'
+                ).reverse()
     elif categoria == 'nuevo':
-        lista = Publicacion.objects.filter(aprobado=True).order_by('fecha').reverse()
+        lista = \
+            Publicacion.objects.filter(aprobado=True).order_by('fecha'
+                ).reverse()
     else:
         raise Http404
 
     publicaciones = paginar(lista, pagina, PUBLICACIONES)
     return render_to_response('index.html',
-                              {'publicaciones':publicaciones, 'categoria':categoria, 'request':request},
+                              {'publicaciones': publicaciones,
+                              'categoria': categoria,
+                              'request': request},
                               context_instance=RequestContext(request))
 
-def usuario(request, username, categoria="aportes", pagina="1"):
+
+def usuario(
+    request,
+    username,
+    categoria='aportes',
+    pagina='1',
+    ):
+
     user = get_object_or_404(User, username=username)
     perfil = PerfilUsuario.objects.get(user=user)
-    if categoria == "aportes":
-        lista = Publicacion.objects.filter(autor=user, aprobado=True).order_by('fecha').reverse()
+    if categoria == 'aportes':
+        lista = Publicacion.objects.filter(autor=user,
+                aprobado=True).order_by('fecha').reverse()
         favoritos = None
-    elif categoria == "favoritos":
+    elif categoria == 'favoritos':
         lista = perfil.favoritos.all()
         favoritos = not None
     else:
         raise Http404
 
     publicaciones = paginar(lista, pagina, PUBLICACIONES)
-    return render_to_response('usuario.html',
-                              {'perfil':perfil, 'publicaciones':publicaciones, 'favoritos':favoritos, 'request':request},
-                              context_instance=RequestContext(request))
+    return render_to_response('usuario.html', {
+        'perfil': perfil,
+        'publicaciones': publicaciones,
+        'favoritos': favoritos,
+        'request': request,
+        }, context_instance=RequestContext(request))
+
 
 def seccion(request, slug):
     seccion = get_object_or_404(Seccion, slug=slug)
-    return render_to_response('seccion.html',
-                              {'seccion':seccion, 'request':request},
+    return render_to_response('seccion.html', {'seccion': seccion,
+                              'request': request},
                               context_instance=RequestContext(request))
+
 
 def publicacion(request, slug, post_id):
     publicacion = get_object_or_404(Publicacion, pk=post_id)
     return render_to_response('publicacion.html',
-                              {'publicacion':publicacion, 'request':request},
+                              {'publicacion': publicacion,
+                              'request': request},
                               context_instance=RequestContext(request))
 
-def busqueda(request, pagina="1", query=None):
+
+def busqueda(request, pagina='1', query=None):
     if not query:
         query = request.GET.get('q', '')
         if query:
-            qset = (Q(titulo__icontains=query) | Q(etiquetas__titulo__icontains=query))
+            qset = Q(titulo__icontains=query) \
+                | Q(etiquetas__titulo__icontains=query)
             lista = Publicacion.objects.filter(qset).distinct()
             resultados = paginar(lista, pagina, PUBLICACIONES * 2)
         else:
             resultados = None
 
     return render_to_response('busqueda.html',
-                              {'resultados': resultados, 'query': query, 'request':request},
+                              {'resultados': resultados,
+                              'query': query, 'request': request},
                               context_instance=RequestContext(request))
 
+
 # Vistas dinámicas de usuario
+
 @login_required(login_url='/autenticacion')
-def publicar(request, tipo_publicacion="imagen"):
-    if tipo_publicacion == "imagen":
+def publicar(request, tipo_publicacion='imagen'):
+    if tipo_publicacion == 'imagen':
         if request.method == 'POST':
-                formulario = PublicarImagenForm(request.POST, request.FILES, autor=request.user)
-                if formulario.is_valid():
-                    formulario.save()
-                    return redirect('index')
+            formulario = PublicarImagenForm(request.POST,
+                    request.FILES, autor=request.user)
+            if formulario.is_valid():
+                formulario.save()
+                return redirect('index')
         else:
             formulario = PublicarImagenForm(autor=request.user)
-
     else:
+
         if request.method == 'POST':
-            formulario = PublicarVideoForm(request.POST, autor=request.user)
+            formulario = PublicarVideoForm(request.POST,
+                    autor=request.user)
             if formulario.is_valid():
                 formulario.save()
                 return redirect('index')
@@ -151,8 +209,10 @@ def publicar(request, tipo_publicacion="imagen"):
             formulario = PublicarVideoForm(autor=request.user)
 
     return render_to_response('publicar.html',
-                              {'formulario':formulario, 'request':request},
+                              {'formulario': formulario,
+                              'request': request},
                               context_instance=RequestContext(request))
+
 
 @login_required(login_url='/autenticacion')
 def editar_perfil(request):
@@ -160,19 +220,25 @@ def editar_perfil(request):
 
     if request.method == 'POST':
         usuario_form = UsuarioForm(request.POST, instance=request.user)
-        perfil_form = PerfilUsuarioForm(request.POST, request.FILES, instance=request.user.perfil)
+        perfil_form = PerfilUsuarioForm(request.POST, request.FILES,
+                instance=request.user.perfil)
         if usuario_form.is_valid() and perfil_form.is_valid():
             usuario_form.save()
             perfil_form.save()
-            aviso(request, '¡Éxito! El usuario se ha modificado correctamente', True)
+            aviso(request,
+                  '¡Éxito! El usuario se ha modificado correctamente',
+                  True)
             return redirect('index')
     else:
         usuario_form = UsuarioForm(instance=request.user)
         perfil_form = PerfilUsuarioForm(instance=request.user.perfil)
 
     return render_to_response('editar-perfil.html',
-                              { 'usuario_form': usuario_form, 'perfil_form': perfil_form, 'request':request },
+                              {'usuario_form': usuario_form,
+                              'perfil_form': perfil_form,
+                              'request': request},
                               context_instance=RequestContext(request))
+
 
 def registro(request):
     if request.user.is_authenticated():
@@ -182,14 +248,17 @@ def registro(request):
         formulario = RegistroUsuarioForm(request.POST)
         if formulario.is_valid():
             formulario.save()
-            aviso(request, '¡Éxito! El usuario se ha creado, ya puedes iniciar sesión', True)
+            aviso(request,
+                  '¡Éxito! El usuario se ha creado, ya puedes iniciar sesión'
+                  , True)
             return redirect('index')
     else:
         formulario = RegistroUsuarioForm()
 
     return render_to_response('registro.html',
-                              {'formulario':formulario},
+                              {'formulario': formulario},
                               context_instance=RequestContext(request))
+
 
 def autenticacion(request, error=None):
     if request.user.is_authenticated():
@@ -197,34 +266,103 @@ def autenticacion(request, error=None):
 
     if request.method == 'POST':
         formulario = AuthenticationForm()
-        usuario = authenticate(username=request.POST['username'], password=request.POST['password'])
+        usuario = authenticate(username=request.POST['username'],
+                               password=request.POST['password'])
         if usuario is not None:
             if usuario.is_active:
                 login(request, usuario)
             else:
-                aviso(request, '¡Error! El usuario se encuentra desactivado', False)
+                aviso(request,
+                      '¡Error! El usuario se encuentra desactivado',
+                      False)
             return redirect('index')
         else:
             return render_to_response('autenticacion.html',
-                                      {'formulario':formulario, 'error':'¡Error! El usuario y la contraseña no coinciden'},
-                                      context_instance=RequestContext(request))
+                    {'formulario': formulario,
+                    'error': '¡Error! El usuario y la contraseña no coinciden'
+                    }, context_instance=RequestContext(request))
 
     formulario = AuthenticationForm()
     return render_to_response('autenticacion.html',
-                              {'formulario':formulario},
+                              {'formulario': formulario},
                               context_instance=RequestContext(request))
+
 
 @csrf_protect
 def borrar_mensaje(request):
     if request.method == 'POST':
-        request.session['mensaje'] = request.session['exito_mensaje'] = None
+        request.session['mensaje'] = request.session['exito_mensaje'] = \
+            None
+
 
 def salir(request):
     logout(request)
     return redirect('index')
 
+
 # Google webmaster tools
+
 def google(request):
     return render_to_response('google7076d88b2720fcc5.html',
-                              {'request':request},
+                              {'request': request},
                               context_instance=RequestContext(request))
+
+
+# Google Auth
+
+def google_avatar(url, perfil):
+    r = requests.get(url)
+    temp = NamedTemporaryFile()
+    temp.write(r.content)
+    temp.flush()
+    perfil.avatar.save('avatar.jpg', File(temp), save=True)
+
+
+def google_registro(request):
+    indice = 0
+    while True:
+        try:
+            usuario = normalizar(request.POST['usuario']) + ((''
+                     if indice == 0 else str(indice)))
+            User.objects.get(username=usuario)
+            indice += 1
+        except User.DoesNotExist:
+            usuario = User.objects.create_user(usuario, ('g'
+                    + request.POST['id'] + '@sonrisatroll.com'
+                     if request.POST['email'] == 'None'
+                     else request.POST['email']), request.POST['id'])
+            usuario.first_name = request.POST['nombre']
+            usuario.last_name = request.POST['apellido']
+            usuario.save()
+            perfil = PerfilUsuario.objects.get(user=usuario)
+            google_avatar(request.POST['avatar'], perfil)
+            login(request, authenticate(username=usuario,
+                  password=request.POST['id']))
+            aviso(request, '¡Éxito! Bienvenido a Sonrisatroll', True)
+            break
+
+
+@csrf_protect
+def google_autenticacion(request):
+    if request.user.is_authenticated():
+        return redirect('index')
+
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            usuario = normalizar(request.POST['usuario'])
+            if request.POST['email'] == 'None':
+                usuario = User.objects.get(email='g' + request.POST['id'
+                        ] + '@sonrisatroll.com')
+                usuario = authenticate(username=usuario.username,
+                        password=request.POST['id'])
+            else:
+                usuario = User.objects.get(email=request.POST['email'])
+                usuario = authenticate(username=usuario.username,
+                        password=request.POST['id'])
+            if usuario is None:
+                google_registro(request)
+            else:
+                login(request, usuario)
+        except User.DoesNotExist:
+            google_registro(request)
+    return redirect('index')

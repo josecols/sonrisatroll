@@ -35,5 +35,6 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Google webmaster tools
     url(r'^google7076d88b2720fcc5.html$', 'main.views.google', name='google'),
-    
+    # Google Auth
+    url(r'^google/autenticacion/$', 'main.views.google_autenticacion', name='google_autenticacion'),
 )
