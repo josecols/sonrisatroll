@@ -11,7 +11,7 @@
         </ul>
     </nav>
     <h1>Nueva publicación</h1>
-    <form {% if formulario.imagen %}enctype="multipart/form-data" {% endif %} method='post' action='{% url publicar 'imagen' %}'>
+    <form {% if formulario.imagen %}enctype="multipart/form-data" {% endif %} method='post' action='{% if formulario.video %}{% url publicar 'video' %}{% else %}{% url publicar 'imagen' %}{% endif %}'>
         {% csrf_token %} {% for campo in formulario %} {% if campo.label != "Etiquetas" %}
         <span class="helptext">{{campo.help_text}}</span>
         {% endif%}
