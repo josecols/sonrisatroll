@@ -114,7 +114,7 @@
                 </hgroup>
                 <div class="contenedor">
                     {% if publicacion.imagen %} {% if "GIF" in publicacion.etiquetas.all|safe %}
-                    <img data-estado='estatico' class="gif" src="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" alt="{{ publicacion.titulo }}">
+                    <img data-estado='estatico' data-animado="{{MEDIA_URL}}{{ publicacion.imagen|safe }}" data-estatico="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" class="gif" src="{{MEDIA_URL}}{{ publicacion.imagen|safe|gif_estatico }}" alt="{{ publicacion.titulo }}">
                     <div class="reproducir"></div>
                     <img class="preloader" src="{{STATIC_URL}}img/preloader.gif" alt="Cargando">
                     {% else %}
